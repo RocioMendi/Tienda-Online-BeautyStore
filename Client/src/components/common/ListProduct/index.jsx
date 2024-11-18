@@ -21,8 +21,8 @@ export default function ListProduct() {
       const { data } = await axios.get("http://localhost:5000/productos", {
         params: { ...filters, pagina },
       });
-      setProductos(data.productos);
-      setTotalPaginas(data.totalPaginas);
+      setProductos(data.productos || []);
+      setTotalPaginas(data.totalPaginas || 1);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     }
@@ -100,7 +100,7 @@ export default function ListProduct() {
 
       {/* Lista de productos */}
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center" }}>
-        {productos.length > 0 ? (
+        {Array.isArray(productos) && productos.length > 0 ? (
           productos.map((product) => <CardProduct key={product.id} product={product} />)
         ) : (
           <Typography variant="body1" sx={{ mt: 4 }}>
@@ -110,14 +110,14 @@ export default function ListProduct() {
       </Box>
 
       {/* Paginación */}
-      {totalPaginas > 1 && (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
         <Pagination
           count={totalPaginas}
           page={pagina}
           onChange={handlePageChange}
-          sx={{ mt: 4, display: "flex", justifyContent: "center" }}
+          color="primary"
         />
-      )}
+      </Box>
     </Box>
   );
 }

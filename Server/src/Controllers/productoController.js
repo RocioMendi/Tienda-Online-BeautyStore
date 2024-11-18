@@ -60,10 +60,10 @@ const getAllProducts = async (req, res) => {
       params.slice(0, -2) // Excluir límite y offset
     );
 
-    const totalProductos = totalRows[0].total;
+    const totalProductos = totalRows[0]?.total || 0;
 
     res.json({
-      productos: products,
+      productos: products || [], // Devolver un array vacío si no hay productos
       paginaActual: parseInt(pagina),
       totalPaginas: Math.ceil(totalProductos / limite),
       totalProductos,

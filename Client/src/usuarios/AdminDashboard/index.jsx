@@ -42,12 +42,14 @@ const AdminDashboard = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
 
+  // Función para obtener los productos
   const fetchProductos = async () => {
     try {
       const response = await axios.get('http://localhost:5000/productos');
-      setProductos(response.data);
+      setProductos(response.data.productos || []); // Verifica que sea un array
     } catch (error) {
       console.error('Error al obtener productos:', error);
+      setProductos([]); // Asegura que productos sea un array vacío en caso de error
     }
   };
 
@@ -86,7 +88,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // Función para eliminar un producto
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar el producto con ID ${id}?`);
 
@@ -95,7 +96,7 @@ const AdminDashboard = () => {
         await axios.delete(`http://localhost:5000/productos/${id}`);
         fetchProductos(); // Volver a cargar los productos después de eliminar
       } catch (error) {
-        console.error("Error al eliminar el producto:", error);
+        console.error('Error al eliminar el producto:', error);
       }
     }
   };
@@ -148,21 +149,35 @@ const AdminDashboard = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {productos.map((producto) => (
-                <TableRow key={producto.id}>
-                  <TableCell sx={{ color: 'black' }}>{producto.nombre}</TableCell>
-                  <TableCell sx={{ color: 'black' }}>${producto.precio}</TableCell>
-                  <TableCell>
-                    <img src={producto.imagen} alt={producto.nombre} style={{ width: '50px', height: '50px' }} />
-                  </TableCell>
-                  <TableCell>
-                    <Button sx={{ bgcolor: '#FFB6C1', color: 'black' }} onClick={() => handleOpenModal(producto)}>Editar</Button>
-                    <Button color="error" onClick={() => handleDelete(producto.id)}>
-                      Eliminar
-                    </Button>
+              {Array.isArray(productos) && productos.length > 0 ? (
+                productos.map((producto, index) => (
+                  <TableRow key={producto.id || index}>
+                    <TableCell sx={{ color: 'black' }}>{producto.nombre || 'Sin nombre'}</TableCell>
+                    <TableCell sx={{ color: 'black' }}>${producto.precio || 'N/A'}</TableCell>
+                    <TableCell>
+                      {producto.imagen ? (
+                        <img src={producto.imagen} alt={producto.nombre} style={{ width: '50px', height: '50px' }} />
+                      ) : (
+                        'Sin imagen'
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Button sx={{ bgcolor: '#FFB6C1', color: 'black' }} onClick={() => handleOpenModal(producto)}>
+                        Editar
+                      </Button>
+                      <Button color="error" onClick={() => handleDelete(producto.id)}>
+                        Eliminar
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4} sx={{ textAlign: 'center', color: 'black' }}>
+                    No hay productos disponibles.
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
