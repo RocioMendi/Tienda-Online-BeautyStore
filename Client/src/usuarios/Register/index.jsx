@@ -23,7 +23,12 @@ const Register = () => {
       });
 
       const data = await response.json();
-      alert(data.message);
+
+      if (response.ok) {
+        alert(data.message);
+      } else {
+        alert(`Error: ${data.message}`);
+      }
     } catch (error) {
       alert("Error al registrar el usuario");
     }
@@ -58,7 +63,7 @@ const Register = () => {
             marginBottom: "1.5rem",
           }}
         >
-          Registrate
+          Regístrate
         </Typography>
         {["nombre", "email", "password", "direccion", "telefono"].map((field) => (
           <TextField
