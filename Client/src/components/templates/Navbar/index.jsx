@@ -1,24 +1,24 @@
-import React, { useContext } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Link } from 'react-router-dom';
-import { CartContext } from '../../store/cartContext'; // Importar el contexto del carrito
+import React, { useContext } from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Link } from "react-router-dom";
+import { CartContext } from "../../store/cartContext"; // Importar el contexto del carrito
 
-const pages = ['Productos', 'Sobre Nosotros', 'Contacto'];
+const pages = ["Productos", "Sobre Nosotros", "Contacto"];
 const settings = [
-  { name: 'Ingresá', path: '/login' },
-  { name: 'Registrate', path: '/register' },
+  { name: "Ingresá", path: "/login" },
+  { name: "Registrate", path: "/register" },
 ];
 
 function ResponsiveAppBar() {
@@ -45,7 +45,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#FFB6C1' }}>
+    <AppBar position="static" sx={{ backgroundColor: "#FFB6C1" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo */}
@@ -56,7 +56,7 @@ function ResponsiveAppBar() {
           />
 
           {/* Menú móvil */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -71,24 +71,24 @@ function ResponsiveAppBar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>
+                  <Typography sx={{ textAlign: "center" }}>
                     <Link
-                      to={`/${page.toLowerCase().replace(' ', '-')}`}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      to={`/${page.toLowerCase().replace(" ", "-")}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       {page}
                     </Link>
@@ -99,16 +99,16 @@ function ResponsiveAppBar() {
           </Box>
 
           {/* Menú principal para pantallas grandes */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
+                sx={{ my: 2, color: "black", display: "block" }}
               >
                 <Link
-                  to={`/${page.toLowerCase().replace(' ', '-')}`}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
+                  to={`/${page.toLowerCase().replace(" ", "-")}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
                   {page}
                 </Link>
@@ -117,12 +117,12 @@ function ResponsiveAppBar() {
           </Box>
 
           {/* Sección derecha: carrito y usuario */}
-          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
             {/* Botón del carrito */}
             <IconButton color="black" sx={{ mr: 2 }}>
-              <Link to="/cart" style={{ color: 'inherit', textDecoration: 'none' }}>
+              <Link to="/cart" style={{ color: "inherit", textDecoration: "none" }}>
                 <ShoppingCartIcon />
-                <span style={{ fontSize: '0.8rem', marginLeft: 4 }}>
+                <span style={{ fontSize: "0.8rem", marginLeft: 4 }}>
                   {cartCount}
                 </span>
               </Link>
@@ -135,27 +135,27 @@ function ResponsiveAppBar() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>
+                  <Typography sx={{ textAlign: "center" }}>
                     <Link
                       to={setting.path}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       {setting.name}
                     </Link>

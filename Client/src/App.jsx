@@ -1,14 +1,14 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import ResponsiveAppBar from './components/templates/Navbar/index.jsx';
-import Productos from './components/pages/Productos/index.jsx';
-import Contacto from './components/pages/Contacto/index.jsx';
-import SobreNosotros from './components/pages/Sobre Nosotros/index.jsx';
-import Login from './usuarios/Login/index.jsx';
-import Register from './usuarios/Register/index.jsx';
-import AdminDashboard from './usuarios/AdminDashboard/index.jsx';
-import { CartProvider } from './components/store/cartContext.jsx'; // Importar el CartProvider
-import Cart from './components/common/Carrito';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import ResponsiveAppBar from "./components/templates/Navbar/index.jsx";
+import Productos from "./components/pages/Productos/index.jsx";
+import Contacto from "./components/pages/Contacto/index.jsx";
+import SobreNosotros from "./components/pages/Sobre Nosotros/index.jsx";
+import Login from "./usuarios/Login/index.jsx";
+import Register from "./usuarios/Register/index.jsx";
+import AdminDashboard from "./usuarios/AdminDashboard/index.jsx";
+import { CartProvider } from "./components/store/cartContext.jsx"; // Importar el CartProvider
+import Cart from "./components/common/Carrito";
 
 const App = () => {
   return (

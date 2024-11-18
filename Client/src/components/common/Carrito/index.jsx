@@ -15,7 +15,7 @@ const Cart = () => {
       <Typography variant="h4" component="h1" sx={{ mb: 4, textAlign: "center" }}>
         Carrito de Compras
       </Typography>
-      
+
       {cartItems.length === 0 ? (
         <Typography variant="h6" sx={{ textAlign: "center" }}>
           Tu carrito está vacío.
@@ -45,7 +45,10 @@ const Cart = () => {
                     Cantidad: {item.quantity}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Precio: ${item.price}
+                    Precio Unitario: ${item.precio}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    Subtotal: ${item.precio * item.quantity}
                   </Typography>
                 </CardContent>
               </Card>

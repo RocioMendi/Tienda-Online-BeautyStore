@@ -29,14 +29,9 @@ export const CartProvider = ({ children }) => {
   // Calcular el monto total del carrito
   const getTotalAmount = () => {
     return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) => total + item.precio * item.quantity,
       0
     );
-  };
-
-  // Calcular el número total de productos
-  const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
   // Vaciar el carrito
@@ -50,7 +45,6 @@ export const CartProvider = ({ children }) => {
         cartItems,
         addToCart,
         getTotalAmount,
-        getTotalItems,
         clearCart,
       }}
     >
