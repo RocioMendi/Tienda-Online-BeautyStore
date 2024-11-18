@@ -1,4 +1,4 @@
-const express = require('express');
+/* const express = require('express');
 const router = express.Router();
 const cartController = require('../controllers/cartController');
 
@@ -11,3 +11,4 @@ router.delete('/remove', cartController.eliminarDelCarrito); // Eliminar product
 router.post('/checkout', cartController.confirmarPedido);
 
 module.exports = router;
+ */

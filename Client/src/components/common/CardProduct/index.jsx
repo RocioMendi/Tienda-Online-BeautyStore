@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -6,20 +6,14 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import axios from "axios";
+import { CartContext } from "../../store/cartContext"; // Importa el contexto del carrito
 
 export default function CardProduct({ product }) {
-  const agregarAlCarrito = async () => {
-    try {
-      await axios.post("http://localhost:5000/carrito", {
-        productoId: product.id,
-        quantity: 1, // Cantidad inicial
-      });
-      alert("Producto agregado al carrito");
-    } catch (error) {
-      console.error("Error al agregar producto al carrito:", error);
-      alert("Hubo un error al agregar el producto al carrito.");
-    }
+  const { addToCart } = useContext(CartContext); // Usa el contexto del carrito
+
+  const agregarAlCarrito = () => {
+    addToCart(product); // Agrega el producto al carrito desde el contexto
+    alert("Producto agregado al carrito");
   };
 
   return (
@@ -51,7 +45,7 @@ export default function CardProduct({ product }) {
                 border: "2px solid #FF69B4",
               },
             }}
-            onClick={agregarAlCarrito} // Llama a la función
+            onClick={agregarAlCarrito} // Llama a la función del contexto
           >
             Agregar al carrito
           </Button>

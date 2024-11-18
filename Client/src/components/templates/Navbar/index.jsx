@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,22 +13,25 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
-
+import { CartContext } from '../../store/cartContext'; // Importar el contexto del carrito
 
 const pages = ['Productos', 'Sobre Nosotros', 'Contacto'];
 const settings = [
   { name: 'Ingresá', path: '/login' },
   { name: 'Registrate', path: '/register' },
- 
 ];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const { cartItems } = useContext(CartContext); // Acceder al estado del carrito
+  const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0); // Total de ítems en el carrito
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -52,23 +55,7 @@ function ResponsiveAppBar() {
             style={{ width: 200, height: 80, marginRight: 16 }}
           />
 
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'Black',
-              textDecoration: 'none',
-            }}
-          />
-
-          {/* Botón de menú para dispositivos pequeños */}
+          {/* Menú móvil */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -76,7 +63,7 @@ function ResponsiveAppBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="Black"
+              color="inherit"
             >
               <MenuIcon />
             </IconButton>
@@ -129,12 +116,19 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          {/* Menú de usuario */}
+          {/* Sección derecha: carrito y usuario */}
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+            {/* Botón del carrito */}
             <IconButton color="black" sx={{ mr: 2 }}>
-              <ShoppingCartIcon />
+              <Link to="/cart" style={{ color: 'inherit', textDecoration: 'none' }}>
+                <ShoppingCartIcon />
+                <span style={{ fontSize: '0.8rem', marginLeft: 4 }}>
+                  {cartCount}
+                </span>
+              </Link>
             </IconButton>
 
+            {/* Menú de usuario */}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -177,5 +171,3 @@ function ResponsiveAppBar() {
 }
 
 export default ResponsiveAppBar;
-
-

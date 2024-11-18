@@ -1,4 +1,4 @@
-const db = require('../db'); // Conexión a MySQL configurada con mysql2
+/* const db = require('../db'); // Conexión a MySQL configurada con mysql2
 
 // Agregar un producto al carrito
 const agregarAlCarrito = async (req, res) => {
@@ -132,3 +132,4 @@ module.exports = {
   eliminarDelCarrito,
   confirmarPedido,
 };
+ */

@@ -34,13 +34,26 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  // Calcular el número total de productos
+  const getTotalItems = () => {
+    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  };
+
   // Vaciar el carrito
   const clearCart = () => {
     setCartItems([]);
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, getTotalAmount, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        getTotalAmount,
+        getTotalItems,
+        clearCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
