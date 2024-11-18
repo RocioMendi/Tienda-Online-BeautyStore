@@ -1,49 +1,123 @@
-import React, { useEffect, useState } from "react";
-import CardProduct from "../CardProduct";
-import Box from "@mui/material/Box";
+import React, { useState, useEffect } from "react";
+import CardProduct from "../CardProduct"; // Componente para cada producto
 import axios from "axios";
+import { Box, TextField, Button, Select, MenuItem, Pagination, Typography } from "@mui/material";
 
-const ListProduct = () => {
-  const [products, setProducts] = useState([]);
+export default function ListProduct() {
+  const [productos, setProductos] = useState([]);
+  const [filters, setFilters] = useState({
+    nombre: "",
+    precioMin: "",
+    precioMax: "",
+    orden: "",
+    categoria: "",
+  });
+  const [pagina, setPagina] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(1);
 
+  // Obtener productos desde el backend con filtros y paginación
+  const fetchProductos = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5000/productos", {
+        params: { ...filters, pagina },
+      });
+      setProductos(data.productos);
+      setTotalPaginas(data.totalPaginas);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  };
+
+  // Llamar a la función al cargar el componente y cuando cambien los filtros o la página
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/productos"); // URL corregida
-        setProducts(response.data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      }
-    };
+    fetchProductos();
+  }, [filters, pagina]);
 
-    fetchProducts();
-  }, []);
+  // Manejar cambios en los filtros
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
+  // Manejar cambio de página
+  const handlePageChange = (event, value) => {
+    setPagina(value);
+  };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: 2, // Espaciado entre tarjetas
-        marginTop: 4,
-      }}
-    >
-      {products.map((product, index) => (
-        <Box
-          key={product.id}
-          sx={{
-            flex: "0 0 22%", // Ancho fijo para cada tarjeta (22% del contenedor)
-            maxWidth: "22%",
-            mb: 2, // Espaciado inferior entre las filas
-          }}
+    <Box sx={{ p: 4 }}>
+      {/* Filtros */}
+      <Box sx={{ display: "flex", gap: 2, mb: 4, flexWrap: "wrap" }}>
+        <TextField
+          name="nombre"
+          label="Buscar por nombre"
+          onChange={handleFilterChange}
+          variant="outlined"
+          size="small"
+        />
+        <TextField
+          name="precioMin"
+          label="Precio mínimo"
+          type="number"
+          onChange={handleFilterChange}
+          variant="outlined"
+          size="small"
+        />
+        <TextField
+          name="precioMax"
+          label="Precio máximo"
+          type="number"
+          onChange={handleFilterChange}
+          variant="outlined"
+          size="small"
+        />
+        <Select
+          name="orden"
+          value={filters.orden}
+          onChange={handleFilterChange}
+          displayEmpty
+          size="small"
         >
-          <CardProduct product={product} />
-        </Box>
-      ))}
+          <MenuItem value="">Ordenar por precio</MenuItem>
+          <MenuItem value="asc">Ascendente</MenuItem>
+          <MenuItem value="desc">Descendente</MenuItem>
+        </Select>
+        <TextField
+          name="categoria"
+          label="Categoría"
+          onChange={handleFilterChange}
+          variant="outlined"
+          size="small"
+        />
+        <Button
+          variant="contained"
+          size="small"
+          onClick={fetchProductos}
+          sx={{ backgroundColor: "#FFB6C1", "&:hover": { backgroundColor: "#FF69B4" } }}
+        >
+          Aplicar filtros
+        </Button>
+      </Box>
+
+      {/* Lista de productos */}
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, justifyContent: "center" }}>
+        {productos.length > 0 ? (
+          productos.map((product) => <CardProduct key={product.id} product={product} />)
+        ) : (
+          <Typography variant="body1" sx={{ mt: 4 }}>
+            No se encontraron productos con los filtros aplicados.
+          </Typography>
+        )}
+      </Box>
+
+      {/* Paginación */}
+      {totalPaginas > 1 && (
+        <Pagination
+          count={totalPaginas}
+          page={pagina}
+          onChange={handlePageChange}
+          sx={{ mt: 4, display: "flex", justifyContent: "center" }}
+        />
+      )}
     </Box>
   );
-};
-
-export default ListProduct;
-
+}

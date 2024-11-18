@@ -1,11 +1,73 @@
 const { getConnection } = require("../db");
 
+// Obtener todos los productos con filtros, orden y paginación
 const getAllProducts = async (req, res) => {
+  const { nombre, precioMin, precioMax, orden, categoria, pagina = 1, limite = 10 } = req.query;
+  const offset = (pagina - 1) * limite;
+
   let connection;
   try {
     connection = await getConnection();
-    const [results] = await connection.query("SELECT * FROM productos");
-    res.json(results);
+
+    let query = "SELECT * FROM productos WHERE 1=1";
+    const params = [];
+
+    // Filtrar por nombre
+    if (nombre) {
+      query += " AND nombre LIKE ?";
+      params.push(`%${nombre}%`);
+    }
+
+    // Filtrar por precio mínimo
+    if (precioMin) {
+      query += " AND precio >= ?";
+      params.push(precioMin);
+    }
+
+    // Filtrar por precio máximo
+    if (precioMax) {
+      query += " AND precio <= ?";
+      params.push(precioMax);
+    }
+
+    // Filtrar por categoría
+    if (categoria) {
+      query += " AND categoria = ?";
+      params.push(categoria);
+    }
+
+    // Ordenar por precio
+    if (orden === "asc") {
+      query += " ORDER BY precio ASC";
+    } else if (orden === "desc") {
+      query += " ORDER BY precio DESC";
+    }
+
+    // Paginación
+    query += " LIMIT ? OFFSET ?";
+    params.push(parseInt(limite), offset);
+
+    // Ejecutar consulta principal
+    const [products] = await connection.query(query, params);
+
+    // Obtener el total de productos para calcular las páginas
+    const [totalRows] = await connection.query(
+      `SELECT COUNT(*) as total FROM productos WHERE 1=1 ${
+        nombre ? "AND nombre LIKE ?" : ""
+      } ${precioMin ? "AND precio >= ?" : ""} ${precioMax ? "AND precio <= ?" : ""} ${
+        categoria ? "AND categoria = ?" : ""
+      }`,
+      params.slice(0, -2) // Excluir límite y offset
+    );
+
+    const totalProductos = totalRows[0].total;
+
+    res.json({
+      productos: products,
+      paginaActual: parseInt(pagina),
+      totalPaginas: Math.ceil(totalProductos / limite),
+      totalProductos,
+    });
   } catch (error) {
     console.error("Error al obtener productos:", error);
     res.status(500).json({ error: "Error al obtener productos" });
@@ -14,6 +76,7 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+// Eliminar un producto
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
@@ -35,6 +98,7 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+// Actualizar un producto
 const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { nombre, precio, imagen } = req.body;
@@ -60,6 +124,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
+// Agregar un nuevo producto
 const addProduct = async (req, res) => {
   const { nombre, precio, imagen } = req.body;
 
@@ -80,4 +145,3 @@ const addProduct = async (req, res) => {
 };
 
 module.exports = { getAllProducts, deleteProduct, updateProduct, addProduct };
-

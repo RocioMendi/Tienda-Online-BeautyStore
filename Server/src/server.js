@@ -13,6 +13,7 @@ app.use(express.json());
 app.use("/usuarios", userRoutes);
 app.use("/productos", productRoutes);
 app.use("/carrito", carritoRoutes);
+app.use('/api/cart', carritoRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => {
