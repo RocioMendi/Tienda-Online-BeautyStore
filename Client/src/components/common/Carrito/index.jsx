@@ -58,14 +58,28 @@ const Cart = () => {
             <Typography variant="h5">
               Total: ${getTotalAmount().toFixed(2)}
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={clearCart}
-              sx={{ mt: 2 }}
-            >
-              Vaciar carrito
-            </Button>
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 2 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#FFB6C1",
+                  ":hover": { bgcolor: "#FF69B4" },
+                }}
+                onClick={() => alert("Compra realizada con éxito!")}
+              >
+                Comprar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#FFB6C1",
+                  ":hover": { bgcolor: "#FF69B4" },
+                }}
+                onClick={clearCart}
+              >
+                Vaciar carrito
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}
