@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
-import { CartContext } from "../../store/cartContext"; // Importar el contexto del carrito
+import { CartContext } from "../../store/cartContext"; 
 
 const pages = ["Productos", "Sobre Nosotros", "Contacto"];
 const settings = [

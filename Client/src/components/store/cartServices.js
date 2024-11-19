@@ -25,8 +25,8 @@ export const getCart = async () => {
 // Función para crear o actualizar el carrito del cliente logueado
 export const createCart = async (cartData) => {
   try {
-    console.log("Enviando datos del carrito:", cartData);  // Agregar log para depuración
-    const response = await axios.post("http://localhost:5000/cart", cartData, {  // Aqui Salta error 
+    console.log("Enviando datos del carrito:", cartData);  
+    const response = await axios.post("http://localhost:5000/cart", cartData, {  
       headers: { "Content-Type": "application/json" },
     });
     return response.data;

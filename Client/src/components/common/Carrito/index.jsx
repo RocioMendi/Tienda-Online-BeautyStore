@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CartContext } from "../../store/cartContext"; // Ajusta la ruta si es diferente
+import { CartContext } from "../../store/cartContext"; 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";

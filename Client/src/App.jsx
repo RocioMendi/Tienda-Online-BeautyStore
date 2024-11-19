@@ -7,12 +7,12 @@ import SobreNosotros from "./components/pages/Sobre Nosotros/index.jsx";
 import Login from "./usuarios/Login/index.jsx";
 import Register from "./usuarios/Register/index.jsx";
 import AdminDashboard from "./usuarios/AdminDashboard/index.jsx";
-import { CartProvider } from "./components/store/cartContext.jsx"; // Importar el CartProvider
+import { CartProvider } from "./components/store/cartContext.jsx"; 
 import Cart from "./components/common/Carrito";
 
 const App = () => {
   return (
-    <CartProvider> {/* Envolver la app en el CartProvider */}
+    <CartProvider> 
       <>
         <ResponsiveAppBar />
         <Routes>
@@ -23,7 +23,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/cart" element={<Cart />} /> {/* Nueva ruta */}
+          <Route path="/cart" element={<Cart />} /> 
         </Routes>
       </>
     </CartProvider>
